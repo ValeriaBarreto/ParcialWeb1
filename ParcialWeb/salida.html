@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style-salida.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <title>Resultado</title>
+</head>
+<body>
+    
+    <div class="container">
+        <img src="imagenes/smile-face.png" alt="carita" class="sonrisa">
+        <p id="nombreUsuario"></p>
+        
+    </div>
+    <div class="emailc">
+        <p>Email </p>
+        <div class="emaiil"><p id="emailUsuario"></p>
+        </div>
+    </div>
+    <div class="telc">
+        <p>Telefono</p>
+        <div class="teel"> <p id="telefonoUsuario"></p>
+        </div>
+    </div>
+    <div class="gustoc">
+        <ul id="gustosList"></ul>
+    </div>
+    <script>
+    var nombreUsuario = document.getElementById("nombreUsuario");
+    var emailUsuario = document.getElementById("emailUsuario");
+    var telefonoUsuario = document.getElementById("telefonoUsuario");
+    var gustosList = document.getElementById("gustosList");
+
+    var queryString = window.location.search;
+    var params = new URLSearchParams(queryString);
+
+    var nombre = params.get("nombre");
+    var email = params.get("email");
+    var telefono = params.get("telefono");
+
+    nombreUsuario.textContent = nombre || "No se encontró un nombre.";
+    emailUsuario.textContent = email || "No se encontró un correo electrónico.";
+    telefonoUsuario.textContent = telefono || "No se encontró un número de teléfono.";
+
+    var gustosPorcentajesStr = params.get("gustos");
+    var gustosPorcentajes = JSON.parse(decodeURIComponent(gustosPorcentajesStr));
+
+    if (gustosPorcentajes && gustosPorcentajes.length > 0) {
+        gustosPorcentajes.forEach(function (item) {
+            var listItem = document.createElement("li");
+            listItem.textContent = `Gusto: ${item.gusto}, Porcentaje: ${item.porcentaje}`;
+            gustosList.appendChild(listItem);
+        });
+    } else {
+        gustosList.innerHTML = "No se encontraron gustos y porcentajes.";
+    }
+
+    </script>
+    
+</body>
+</html>
